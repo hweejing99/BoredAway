@@ -13,28 +13,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/tvTitle"
-            android:text="Title"
-            android:textColor="#000"
-            android:textSize="22sp"
-            android:textStyle="bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:background="@drawable/loading_image"/>
+            android:background="@drawable/ic_loading_icon"
+            android:scaleType="centerCrop" />
+
         <TextView
             android:id="@+id/tvDesc"
-            android:text="desc details"
-            android:textSize="22sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:text="desc details"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

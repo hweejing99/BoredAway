@@ -1,14 +1,11 @@
 package com.example.myapplication.ui.home
 
-import android.app.ActionBar
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
@@ -19,18 +16,12 @@ import com.google.firebase.database.FirebaseDatabase
 
 
 class EventFragment : Fragment() {
-
-    private lateinit var eventViewModel: EventViewModel
     private lateinit var eventView: View
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mFirebaseDatabase: FirebaseDatabase
     private lateinit var mReference: DatabaseReference
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //ActionBar
-        //var actionBar: ActionBar?.getSupportActionBar()
-        //actionBar?.title = "Post Lists"
-
          // Inflate the layout for this fragment
          eventView = inflater.inflate(R.layout.fragment_home, container, false)
 
@@ -54,8 +45,21 @@ class EventFragment : Fragment() {
 
         var options = FirebaseRecyclerOptions.Builder<Event>().setQuery(mReference, Event::class.java).build()
         var firebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Event, EventViewHolder>(options){
+
             override fun onBindViewHolder(holder: EventViewHolder, position: Int, event: Event) {
-                holder.setDetails(context, event.title, event.desc, event.image)
+                holder.setDetails(context, event.title, event.image, event.date_Time)
+
+                holder.mView.setOnClickListener {
+                    val intent = Intent(context, EventDetails::class.java)
+                    intent.putExtra("Firebase_title", event.title)
+                    intent.putExtra("Firebase_image", event.image)
+                    intent.putExtra("Firebase_dt", event.date_Time)
+                    intent.putExtra("Firebase_desc", event.desc)
+                    intent.putExtra("Firebase_venue", event.venue)
+                    startActivity(intent)
+
+                }
+
             }
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -63,6 +67,8 @@ class EventFragment : Fragment() {
                 val itemView = inflater.inflate(R.layout.feed_row, parent, false)
                 return EventViewHolder(itemView)
             }
+
+
         }
         //set adapter to recycler view
         mRecyclerView.adapter = firebaseRecyclerAdapter
